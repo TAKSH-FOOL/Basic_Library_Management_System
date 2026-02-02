@@ -1,12 +1,3 @@
-package library.app;
-
-import library.entities.*;
-import library.services.Login;
-import library.services.Menu;
-import library.services.BookService;
-import library.services.MemberService;
-
-
 import java.util.Scanner;
 public class LibraryManagementSystem {
 
@@ -23,15 +14,17 @@ public class LibraryManagementSystem {
         BookService bookService = new BookService();
         MemberService memberService = new MemberService();
         while (true){
-            System.out.println("Welcome to the Library Management System");
-            Menu.roleMenu();
-            int roleChoice = sc.nextInt();
-
             Librarian isLibrarian = null;
             Member isMember = null;
+            System.out.println("****************************************");
+            System.out.println("Welcome to the Library Management System");
+            System.out.println("****************************************");
+            Menu.roleMenu();
+            int roleChoice = sc.nextInt();
             if(roleChoice == 1){
                 Menu.authOption();
                 int librarianChoice = sc.nextInt();
+                sc.nextLine();
                 if(librarianChoice == 1){
                      isLibrarian = login.librarianLogin(librarian,0);
                 }
@@ -43,10 +36,11 @@ public class LibraryManagementSystem {
                     System.out.println("invalid choice");
                 }
                 if (isLibrarian != null){
-                    boolean login = true;
-                    while (login){
+                    boolean isLogin = true;
+                    while (isLogin){
                         Menu.librarianMenu();
                         int functionChoice = sc.nextInt();
+                        sc.nextLine();
                             switch (functionChoice){
                                 case 1:{
                                     bookService.addBook(books);
@@ -65,13 +59,16 @@ public class LibraryManagementSystem {
                                     break;
                                 }
                                 case 5:{
-                                    memberService.removeMember(members);
+                                    memberService.removeMember(members,books);
                                     break;
                                 }
                                 case 6:{
                                     System.out.println("Logged out successfully.");
-                                    login = false;
-                                    break;
+                                    isLogin = false;
+                                    continue;
+                                }
+                                case 7:{
+                                    System.exit(0);
                                 }
                                 default:{
                                     System.out.println("invalid choice");
@@ -84,6 +81,7 @@ public class LibraryManagementSystem {
             else if(roleChoice == 2){
                 Menu.authOption();
                 int memberChoice = sc.nextInt();
+                sc.nextLine();
                 if(memberChoice == 1){
                     isMember = login.memberLogin(members,0);
                 }
@@ -98,10 +96,11 @@ public class LibraryManagementSystem {
                     System.out.println("invalid choice");
                 }
                 if (isMember != null){
-                    boolean login = true;
-                    while (login){
+                    boolean isLogin = true;
+                    while (isLogin){
                         Menu.memberMenu();
                         int functionChoice = sc.nextInt();
+                        sc.nextLine();
                         switch (functionChoice){
                             case 1:{
                                 bookService.issueBook(books, isMember);
@@ -121,17 +120,23 @@ public class LibraryManagementSystem {
                             }
                             case 5:{
                                 System.out.println("Logged out successfully.");
-                                login = false;
+                                isLogin = false;
                                 break;
+                            }
+                            case 6:{
+                                System.exit(0);
                             }
                             default:{
                                 System.out.println("invalid choice");
                             }
                         }
                     }
+                    continue;
                 }
             }
-            break;
+            else {
+                System.out.println("invalid choice");
+            }
         }
     }
 }

@@ -1,5 +1,3 @@
-package library.entities;
-
 public class Librarian  extends User {
 
     public Librarian (int id, String name, String role, String password) {
@@ -7,7 +5,7 @@ public class Librarian  extends User {
     }
 
     public void displayInfo() {
-        System.out.println("Librarian  ID: " + id + ", Name: " + name);
+        System.out.printf("%-12s : %-10d%n%-12s : %-20s%n", "Librarian ID", id, "Name", name);
     }
 
 
